@@ -1,12 +1,18 @@
 describe('desafio técnico - GitHub', () => {
-    // Abre a home do GitHub antes de cada teste
     beforeEach(() => {
         cy.visit('/')
     })
     it('abre aba repositories e um repo aleatorio e tab pull requests', () => {
         cy.contains('Sign in').click()
         cy.login(Cypress.env('USER_EMAIL'), Cypress.env('USER_PASSWORD'))
-        cy.get('img.avatar.circle').click().should('be.visible')
+        cy.contains('span', 'Dashboard', { timeout: 15000 }).should('be.visible')
+        
+        cy.wait(5000)
+        cy.xpath('/html/body/div[1]/div[2]/header/div/div[2]/div[4]/deferred-side-panel/include-fragment/react-partial-anchor/button/span/span/img', { timeout: 20000 })
+            .should('be.visible')
+            .scrollIntoView()
+            .click()
+
         cy.contains('span', 'Repositories').click()
 
         cy.get('a[data-hovercard-type="repository"], a[itemprop="name codeRepository"]', { timeout: 15000 })
@@ -16,17 +22,15 @@ describe('desafio técnico - GitHub', () => {
                 const idx = Math.floor(Math.random() * n);
                 const href = $repos[idx].getAttribute('href')
                 cy.visit(href);
-            });
-        cy.contains('a', 'Pull requests').click();
+            })
+        cy.get('a.UnderlineNav-item[data-tab-item="pull-requests-tab"], a.UnderlineNav-item[href$="/pulls"]', { timeout: 15000 }).click()
         cy.url().should('include', '/pulls');
 
     })
 
     it('cria novo repositório usando XPath', () => {
         cy.contains('Sign in').click()
-        cy.get('#login_field').type(Cypress.env('USER_EMAIL'))
-        cy.get('#password').type(Cypress.env('USER_PASSWORD'))
-        cy.get('input[name="commit"]').click()
+        cy.login(Cypress.env('USER_EMAIL'), Cypress.env('USER_PASSWORD'))
 
         cy.visit('/new')
 
