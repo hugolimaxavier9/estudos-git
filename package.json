@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "test:jest": "jest --runInBand",
+    "test:login:show": "set HEADLESS=false && jest tests/login.test.js --runInBand"
   },
   "repository": {
     "type": "git",

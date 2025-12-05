@@ -5,9 +5,7 @@ describe('desafio técnico - GitHub', () => {
     })
     it('abre aba repositories e um repo aleatorio e tab pull requests', () => {
         cy.contains('Sign in').click()
-        cy.get('#login_field').type(Cypress.env('USER_EMAIL'))
-        cy.get('#password').type(Cypress.env('USER_PASSWORD'))
-        cy.get('input[name="commit"]').click()
+        cy.login(Cypress.env('USER_EMAIL'), Cypress.env('USER_PASSWORD'))
         cy.get('img.avatar.circle').click().should('be.visible')
         cy.contains('span', 'Repositories').click()
 
@@ -24,7 +22,7 @@ describe('desafio técnico - GitHub', () => {
 
     })
 
-    it.only('cria novo repositório usando XPath', () => {
+    it('cria novo repositório usando XPath', () => {
         cy.contains('Sign in').click()
         cy.get('#login_field').type(Cypress.env('USER_EMAIL'))
         cy.get('#password').type(Cypress.env('USER_PASSWORD'))

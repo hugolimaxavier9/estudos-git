@@ -23,3 +23,20 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
+
+// cypress/support/commands.js
+Cypress.Commands.add('login', (email, password) => {
+  cy.visit('/login')
+  cy.get('#login_field').type(email)
+  cy.get('#password').type(password)
+  cy.get('input[name="commit"]').click()
+  
+})
+
+
+Cypress.Commands.add('logout', () => {
+  cy.get('img.avatar.circle').click().should('be.visible')
+    cy.contains('Sign out').should('be.visible').click({ force: true })
+    cy.url().should('include', '/logout')
+    cy.get('input[type="submit"][value="Sign out"]').click({ force: true });
+})
